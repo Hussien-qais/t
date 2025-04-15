@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>  احتساب الترفيع للموظف العراقي</title>
+  <style>
+    body {
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: 12px;
+      background-color: #f2f4f8;
+      margin: 0;
+      padding: 10px;
+      color: #000;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 900px;
+      margin: auto;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #2c3e50;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 8px;
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+      border: 1px solid #000;
+      border-radius: 6px;
+      font-size: 12px;
+      direction: rtl;
+    }
+    #employeeName,
+    #grade,
+    #startDate {
+      text-align: right;
+    }
+    .flex-group {
+      display: flex;
+      gap: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 11px;
+    }
+    th, td {
+      border: 1px solid #000;
+      padding: 6px;
+      text-align: center;
+    }
+    th {
+      background-color: #e9ecef;
+    }
+    .buttons {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .buttons button {
+      padding: 8px 15px;
+      font-size: 12px;
+      margin: 3px;
+      border: none;
+      background-color: #3498db;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .buttons button:hover {
+      background-color: #2980b9;
+    }
+    .result {
+      background-color: #eafbea;
+      border: 1px solid #b6e7b6;
+      padding: 12px;
+      margin-top: 20px;
+      border-radius: 8px;
+      line-height: 1.7;
+      color: #000;
+    }
+    .pm-choice {
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .pm-choice button {
+      padding: 6px 14px;
+      margin: 4px;
+      border: none;
+      border-radius: 6px;
+      background-color: #bdc3c7;
+      cursor: pointer;
+    }
+    .pm-choice button.active {
+      background-color: #27ae60;
+      color: #fff;
+    }
+    .pm-choice button.checked {
+      background-color: #27ae60;
+      color: #fff;
+    }
+    .designer {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #555;
+    }
+    @media print {
+      body {
+        background-color: #fff;
+        font-size: 12px;
+        font-family: 'Arial Black', Arial, sans-serif;
+        color: #000;
+      }
+      .container {
+        box-shadow: none;
+        padding: 10px;
+      }
+      .buttons, .designer {
+        display: none;
+      }
+      input, select {
+        border: 1px solid #000 !important;
+        font-weight: bold;
+      }
+      #employeeName,
+      #grade,
+      #startDate {
+        text-align: right;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="captureArea">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Coat_of_arms_of_Iraq.svg/1200px-Coat_of_arms_of_Iraq.svg.png" alt="شعار العراق" width="60" style="float: left;">
+    <h2>احتساب الترفيع للموظف العراقي</h2>
+
+    <label for="employeeName">اسم الموظف:</label>
+    <input type="text" id="employeeName" oninput="enableFields()" placeholder="أدخل اسم الموظف" />
+
+    <label for="grade">الدرجة الحالية:</label>
+    <select id="grade" onchange="setYearsByGrade()" disabled>
+      <option value="">-- اختر الدرجة --</option>
+      <option value="10">العاشرة</option>
+      <option value="9">التاسعة</option>
+      <option value="8">الثامنة</option>
+      <option value="7">السابعة</option>
+      <option value="6">السادسة</option>
+      <option value="5">الخامسة</option>
+      <option value="4">الرابعة</option>
+      <option value="3">الثالثة</option>
+      <option value="2">الثانية</option>
+      <option value="1">الأولى</option>
+    </select>
+
+    <label for="startDate">تاريخ المباشرة في الدرجة:</label>
+    <input type="date" id="startDate" onchange="generateYearInputs()" disabled />
+
+    <label for="years">عدد سنوات الدرجة:</label>
+    <input type="number" id="years" readonly disabled />
+
+    <label>الخدمة المدورة:</label>
+    <div class="flex-group">
+      <input type="number" id="rolloverYears" placeholder="سنوات" disabled />
+      <input type="number" id="rolloverMonths" placeholder="أشهر" disabled />
+      <input type="number" id="rolloverDays" placeholder="أيام" disabled />
+    </div>
+
+    <div id="yearInputs"></div>
+
+    <div class="pm-choice" id="pmChoiceContainer">
+      <label>هل دائرتك تحتسب كتابين شكر وتقدير من رئيس الوزراء في السنة؟</label><br>
+      <button onclick="selectPMRule(true)" id="pmYes">نعم دائرتي تحتسب كتابين شكر من رئيس الوزراء خلال السنة</button>
+      <button onclick="selectPMRule(false)" id="pmNo">كلا دائرتي تحتسب كتاب شكر وتقدير واحد فقط من رئيس الوزراء خلال السنة</button>
+    </div>
+
+    <div class="buttons">
+      <button onclick="calculatePromotion()">احسب الترفيع</button>
+      <button onclick="window.print()">طباعة</button>
+      <button onclick="downloadPDF()">حفظ كـ PDF</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <div class="designer">تصميم: حسين قيس</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+ <script>
+  let pmRuleSelected = null;
+
+  function enableFields() {
+    const name = document.getElementById("employeeName").value;
+    const fields = ["grade", "startDate", "years", "rolloverYears", "rolloverMonths", "rolloverDays"];
+    fields.forEach(id => document.getElementById(id).disabled = !name);
+  }
+
+  function selectPMRule(value) {
+    pmRuleSelected = value;
+
+    const yesBtn = document.getElementById("pmYes");
+    const noBtn = document.getElementById("pmNo");
+
+    if (value) {
+      yesBtn.innerHTML = "✓ نعم دائرتي تحتسب كتابين شكر وتقدير من رئيس الوزراء خلال السنة مع كتاب اخر من المدير العام او المحافظ او الوزير بحيث لا يتجاوز ثلاث كتب في السنة الواحد";
+      noBtn.innerHTML = "اضغط هنا لتغيير الاختيار";
+    } else {
+      yesBtn.innerHTML = "اضغط هنا لتغيير الاختيار";
+      noBtn.innerHTML = "✓  كلا دائرتي تحتسب كتاب شكر وتقدير واحد فقط من رئيس الوزراء خلال السنة مع ثلاث كتب من المدير العام او المحافظ او الوزير لكون كتاب رئيس الوزراء يعتبر استثناء";
+    }
+
+    yesBtn.classList.toggle("active", value);
+    noBtn.classList.toggle("active", !value);
+  }
+
+  function setYearsByGrade() {
+    const grade = parseInt(document.getElementById("grade").value);
+    const years = grade === 10 || grade >= 6 ? 4 : 5;
+    document.getElementById("years").value = years;
+    generateYearInputs();
+  }
+
+  function generateYearInputs() {
+    const years = parseInt(document.getElementById("years").value);
+    const start = document.getElementById("startDate").value;
+    if (!start || isNaN(years)) return;
+
+    const startDate = new Date(start);
+    const container = document.getElementById("yearInputs");
+    container.innerHTML = "";
+
+    let table = `<table><thead><tr>
+      <th>السنة</th>
+      <th>شكر المدير</th>
+      <th>شكر الوزير</th>
+      <th>رئيس الوزراء</th>
+      <th>لفت نظر</th>
+      <th>إنذار</th>
+      <th>توبيخ</th>
+    </tr></thead><tbody>`;
+
+    for (let i = 0; i < years; i++) {
+      const year = startDate.getFullYear() + i;
+      table += `<tr>
+        <td>${year}</td>
+        <td><input type="number" min="0" max="3" id="uni_${i}"></td>
+        <td><input type="number" min="0" max="3" id="minister_${i}"></td>
+        <td><input type="number" min="0" max="3" id="pm_${i}" oninput="checkPMInputs()"></td>
+        <td><select id="warn_${i}"><option>لا</option><option>نعم</option></select></td>
+        <td><select id="alert_${i}"><option>لا</option><option>نعم</option></select></td>
+        <td><select id="blame_${i}"><option>لا</option><option>نعم</option></select></td>
+      </tr>`;
+    }
+
+    table += "</tbody></table>";
+    container.innerHTML = table;
+  }
+
+  function checkPMInputs() {
+    const years = parseInt(document.getElementById("years").value);
+    for (let i = 0; i < years; i++) {
+      if ((parseInt(document.getElementById(`pm_${i}`).value) || 0) > 0) {
+        document.getElementById("pmChoiceContainer").style.display = "block";
+        return;
+      }
+    }
+    document.getElementById("pmChoiceContainer").style.display = "none";
+  }
+
+  function calculatePromotion() {
+    if (document.getElementById("pmChoiceContainer").style.display === "block" && pmRuleSelected === null) {
+      alert("يرجى اختيار سياسة احتساب كتب رئيس الوزراء");
+      return;
+    }
+
+    const years = parseInt(document.getElementById("years").value);
+    const start = new Date(document.getElementById("startDate").value);
+    const grade = parseInt(document.getElementById("grade").value);
+    const requiredYears = grade === 10 || grade >= 6 ? 4 : 5;
+    const originalPromotion = new Date(start);
+    originalPromotion.setFullYear(originalPromotion.getFullYear() + requiredYears);
+
+    let totalMonths = 0;
+    let delayMonths = 0;
+    let pmUsedYears = new Set();
+
+    for (let i = 0; i < years; i++) {
+      let uni = Math.min(parseInt(document.getElementById(`uni_${i}`).value) || 0, 3);
+      let min = Math.min(parseInt(document.getElementById(`minister_${i}`).value) || 0, 3);
+      let pm = parseInt(document.getElementById(`pm_${i}`).value) || 0;
+      const year = start.getFullYear() + i;
+
+      if (pm > 0 && !pmUsedYears.has(year)) {
+        totalMonths += pmRuleSelected ? Math.min(pm, 2) * 6 : 6;
+        pmUsedYears.add(year);
+      }
+
+      totalMonths += pmRuleSelected ? Math.min(uni + min, 1) : Math.min(uni + min, 3);
+
+      const warn = document.getElementById(`warn_${i}`).value === "نعم" ? 3 : 0;
+      const alert = document.getElementById(`alert_${i}`).value === "نعم" ? 6 : 0;
+      const blame = document.getElementById(`blame_${i}`).value === "نعم" ? 12 : 0;
+      delayMonths += Math.max(warn, alert, blame);
+    }
+
+    let rY = parseInt(document.getElementById("rolloverYears").value) || 0;
+    let rM = parseInt(document.getElementById("rolloverMonths").value) || 0;
+    let rD = parseInt(document.getElementById("rolloverDays").value) || 0;
+
+    let totalDays = rY * 365 + rM * 30 + rD;
+    let rolloverMonths = Math.floor(totalDays / 30);
+    let rolloverDays = totalDays % 30;
+
+    let finalDate = new Date(originalPromotion);
+    finalDate.setMonth(finalDate.getMonth() - totalMonths - rolloverMonths + delayMonths);
+    finalDate.setDate(finalDate.getDate() - rolloverDays);
+
+    let resultHTML = `<strong>تاريخ الترفيع الأصلي:</strong> ${originalPromotion.toLocaleDateString("ar-EG")}<br>
+      <strong>تاريخ الترفيع المستحق:</strong> ${finalDate.toLocaleDateString("ar-EG")}<br>
+      <strong>القدم من كتب الشكر:</strong> ${totalMonths} شهر<br>`;
+
+    if (totalDays > 0)
+      resultHTML += `<strong>الخدمة المدورة:</strong> ${rY} سنة و${rM} شهر و${rD} يوم<br>`;
+    if (delayMonths > 0)
+      resultHTML += `<strong>مدة تأخير العقوبة:</strong> ${delayMonths} شهر`;
+
+    document.getElementById("result").innerHTML = resultHTML;
+  }
+
+  function downloadPDF() {
+    const element = document.getElementById("captureArea");
+    const opt = {
+      margin: 0,
+      filename: 'احتساب_الترفيع.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  }
+</script>
