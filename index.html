@@ -502,70 +502,66 @@ function downloadImage() {
     link.download = "احتساب_الترفيع.jpg";
     link.click();
   });
-}
-</script>
-  <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>عرض سجل العمليات</title>
+</head>
+<body>
+  <h2>سجل العمليات</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>العملية</th>
+        <th>التاريخ والوقت</th>
+        <th>الموقع</th>
+      </tr>
+    </thead>
+    <tbody id="dataBody">
+      <!-- هنا ستعرض البيانات -->
+    </tbody>
+  </table>
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBIzTtcXKcZx4tLTYk4e-rgdPa5XfQ6ejQ",
-    authDomain: "tarfieh.firebaseapp.com",
-    databaseURL: "https://tarfieh-default-rtdb.firebaseio.com",
-    projectId: "tarfieh",
-    storageBucket: "tarfieh.firebasestorage.app",
-    messagingSenderId: "537704810851",
-    appId: "1:537704810851:web:e48225d8b90b20599aab56",
-    measurementId: "G-T81YPB61PY"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-</script>
-  
   <script type="module">
-  // استيراد المكتبات
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 
-  // إعدادات Firebase الخاصة بك
-  const firebaseConfig = {
-    apiKey: "AIzaSyBIzTtcXKcZx4tLTYk4e-rgdPa5XfQ6ejQ",
-    authDomain: "tarfieh.firebaseapp.com",
-    databaseURL: "https://tarfieh-default-rtdb.firebaseio.com",
-    projectId: "tarfieh",
-    storageBucket: "tarfieh.firebasestorage.app",
-    messagingSenderId: "537704810851",
-    appId: "1:537704810851:web:e48225d8b90b20599aab56",
-    measurementId: "G-T81YPB61PY"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBIzTtcXKcZx4tLTYk4e-rgdPa5XfQ6ejQ",
+      authDomain: "tarfieh.firebaseapp.com",
+      databaseURL: "https://tarfieh-default-rtdb.firebaseio.com",
+      projectId: "tarfieh",
+      storageBucket: "tarfieh.firebasestorage.app",
+      messagingSenderId: "537704810851",
+      appId: "1:537704810851:web:e48225d8b90b20599aab56",
+      measurementId: "G-T81YPB61PY"
+    };
 
-  // تهيئة التطبيق
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-  // مرجع البيانات
-  const dataRef = ref(db, 'operations');
-
-  // قراءة البيانات وعرضها في الجدول
-  onValue(dataRef, (snapshot) => {
-    const data = snapshot.val();
+    const dataRef = ref(db, 'operations');
     const tableBody = document.getElementById("dataBody");
-    tableBody.innerHTML = ""; // مسح البيانات السابقة
 
-    for (let key in data) {
-      const entry = data[key];
-      const row = `
-        <tr>
-          <td>${entry.name || ''}</td>
-          <td>${entry.action || ''}</td>
-          <td>${entry.date || ''}</td>
-          <td>${entry.location || ''}</td>
-        </tr>
-      `;
-      tableBody.innerHTML += row;
-    }
-  });
-</script>
+    onValue(dataRef, (snapshot) => {
+      tableBody.innerHTML = '';
+      const data = snapshot.val();
+      if (data) {
+        Object.values(data).forEach(entry => {
+          const row = `
+            <tr>
+              <td>${entry.name || ''}</td>
+              <td>${entry.action || ''}</td>
+              <td>${entry.date || ''}</td>
+              <td>${entry.location || ''}</td>
+            </tr>
+          `;
+          tableBody.innerHTML += row;
+        });
+      }
+    });
+  </script>
+</body>
+</html>
