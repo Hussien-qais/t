@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>احتساب ترفيع الموظف العراقي</title>
+  <title>احتساب الترفيع - النسخة الذهبية</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     body {
@@ -171,7 +171,7 @@
   <div class="container" id="captureArea">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
   <img src="https://raw.githubusercontent.com/Hussien-qais/t/refs/heads/main/Coat_of_arms_of_Iraq.png" alt="شعار العراق" width="60">
-  <h2 style="flex: 1; text-align: center; margin: 0;">موقع احتساب الترفيع للموظف العراقي تلقائياً</h2>
+  <h2 style="flex: 1; text-align: center; margin: 0;">احتساب الترفيع للموظف العراقي</h2>
 <h2 style="text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 5px;">
 </h2>
 <div style="text-align: center; font-size: 10px; font-weight: bold; color: #555; margin-bottom: 10px;">
@@ -221,6 +221,7 @@
     <div class="buttons">
       <button onclick="calculatePromotion()">احسب الترفيع</button>
       <button onclick="window.print()">طباعة</button>
+      <button onclick="downloadPDF()">حفظ كـ PDF</button>
       <button onclick="downloadImage()">تحميل كصورة</button>
     </div>
 
@@ -229,7 +230,28 @@
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+    <script>
+function downloadPDF() {
+  const element = document.getElementById("captureArea");
+  const opt = {
+    margin: [0.2, 0.2, 0.2, 0.2],
+    filename: 'احتساب_الترفيع.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      scrollY: 0
+    },
+    jsPDF: {
+      unit: 'in',
+      format: 'a4',
+      orientation: 'portrait'
+    },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+  };
+  html2pdf().set(opt).from(element).save();
+}
+</script>
  <script>
   let pmRuleSelected = null;
 
@@ -374,7 +396,7 @@
   function downloadPDF() {
   const element = document.getElementById("captureArea");
   const opt = {
-    margin: [0.0, 0.0, 0.0, 0.0], // هوامش صغيرة لاحتواء المحتوى الكامل
+    margin: [0.1, 0.1, 0.1, 0.5], // هوامش صغيرة لاحتواء المحتوى الكامل
     filename: 'احتساب_الترفيع.pdf',
     image: { type: 'jpeg', quality: 1 },
     html2canvas: {
@@ -405,7 +427,7 @@
 function downloadImage() {
   const element = document.getElementById("captureArea");
   html2canvas(element, {
-    scale: 4, // زيادة الدقة
+    scale: 3, // زيادة الدقة
     useCORS: true,
     scrollY: -window.scrollY
   }).then(canvas => {
