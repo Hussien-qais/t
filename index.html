@@ -229,28 +229,7 @@
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script>
-function downloadPDF() {
-  const element = document.getElementById("captureArea");
-  const opt = {
-    margin: [0.2, 0.2, 0.2, 0.2],
-    filename: 'احتساب_الترفيع.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: {
-      scale: 2,
-      useCORS: true,
-      scrollY: 0
-    },
-    jsPDF: {
-      unit: 'in',
-      format: 'a4',
-      orientation: 'portrait'
-    },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-  };
-  html2pdf().set(opt).from(element).save();
-}
-</script>
+
  <script>
   let pmRuleSelected = null;
 
