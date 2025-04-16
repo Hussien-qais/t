@@ -5,8 +5,9 @@
   @media print {
     .no-print {
       display: none !important;
-    
-  * {
+    }
+  }
+ {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
   }
@@ -47,7 +48,9 @@
   h1, h2, h3 {
     text-align: center;
     margin-top: 0;
-  
+  }
+
+ 
   }
 </style>
   <meta charset="UTF-8">
@@ -57,7 +60,7 @@
     body {
       font-family: Arial, sans-serif;
       background: #fefefe;
-      font-size: 12px;
+      font-size: 16px;
       margin: 0;
       padding: 0;
     }
@@ -163,7 +166,7 @@
     @media print {
   body {
     background-color: #fff;
-    font-size: 12px;
+    font-size: 20px;
     font-family: 'Arial', sans-serif;
     color: #000;
     margin: 0;
@@ -217,9 +220,10 @@
   </style>
 </head>
 <body>
+<div style="font-size: 16px; font-weight: bold; color: #000; font-family: Arial, sans-serif;">
   <div class="container" id="captureArea">
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-  <img src="https://raw.githubusercontent.com/Hussien-qais/t/refs/heads/main/Coat_of_arms_of_Iraq.png" alt="شعار العراق" width="60">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/Coat_of_arms_of_Iraq.svg" alt="شعار العراق" width="60">
   <h2 style="flex: 1; text-align: center; margin: 0;">احتساب الترفيع للموظف العراقي</h2>
 <h2 style="text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 5px;">
 </h2>
@@ -227,22 +231,6 @@
   امسح الباركود للدخول للموقع الالكتروني
 </div>
   <img src="https://raw.githubusercontent.com/Hussien-qais/t/main/websiteplanet-qr.png" alt="QR Code" width="90">
-</div>
-    <div>
-  <h3>سجل العمليات</h3>
-  <table id="dataTable" border="1">
-    <thead>
-      <tr>
-        <th>الاسم</th>
-        <th>العملية</th>
-        <th>التاريخ والوقت</th>
-        <th>الموقع</th>
-      </tr>
-    </thead>
-    <tbody id="dataBody">
-      <!-- سيتم ملء البيانات هنا -->
-    </tbody>
-  </table>
 </div>
     <label for="employeeName">اسم الموظف:</label>
     <input type="text" id="employeeName" oninput="enableFields()" placeholder="أدخل اسم الموظف" />
@@ -286,12 +274,13 @@
     <div class="buttons">
      <button onclick="calculatePromotion()" class="no-print">احتساب الترفيع</button>
 <button onclick="window.print()" class="no-print">طباعة</button>
-<button onclick="downloadImage()" class="no-print">تنزيل</button>
+<button onclick="downloadImage()" class="no-print">حفظ كصورة</button>
     </div>
 
     <div class="result" id="result"></div>
 
   </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
 function downloadPDF() {
@@ -331,11 +320,11 @@ function downloadPDF() {
     const noBtn = document.getElementById("pmNo");
 
     if (value) {
-      yesBtn.innerHTML = "? نعم دائرتي تحتسب كتابين شكر وتقدير من رئيس الوزراء خلال السنة مع كتاب اخر من المدير العام او المحافظ او الوزير ";
+      yesBtn.innerHTML = "✓ نعم دائرتي تحتسب كتابين شكر وتقدير من رئيس الوزراء خلال السنة مع كتاب اخر من المدير العام او المحافظ او الوزير ";
       noBtn.innerHTML = "اضغط هنا لتغيير الاختيار";
     } else {
       yesBtn.innerHTML = "اضغط هنا لتغيير الاختيار";
-      noBtn.innerHTML = "?  كلا دائرتي تحتسب كتاب شكر وتقدير واحد فقط من رئيس الوزراء خلال السنة مع ثلاث كتب من المدير العام او المحافظ او الوزير لكون كتاب رئيس الوزراء يعتبر استثناء";
+      noBtn.innerHTML = "✓  كلا دائرتي تحتسب كتاب شكر وتقدير واحد فقط من رئيس الوزراء خلال السنة مع ثلاث كتب من المدير العام او المحافظ او الوزير لكون كتاب رئيس الوزراء يعتبر استثناء";
     }
 
     yesBtn.classList.toggle("active", value);
@@ -459,7 +448,7 @@ function downloadPDF() {
   function downloadPDF() {
   const element = document.getElementById("captureArea");
   const opt = {
-    margin: [0.5, 0.5, 0.5, 0.5], // هوامش صغيرة لاحتواء المحتوى الكامل
+    margin: [0.1, 0.1, 0.1, 0.5], // هوامش صغيرة لاحتواء المحتوى الكامل
     filename: 'احتساب_الترفيع.pdf',
     image: { type: 'jpeg', quality: 1 },
     html2canvas: {
@@ -500,6 +489,5 @@ function downloadImage() {
     link.download = "احتساب_الترفيع.jpg";
     link.click();
   });
-  </script>
-</body>
-<html>
+}
+</script>
