@@ -54,13 +54,13 @@ table td select {
     background-color: #f1f1f1;
     position: sticky;
     top: 0;
-  }
+  
 }
   @media print {
   .no-print {
     display: none !important;
+   
   } 
-    
     box-sizing: border-box;
     font-family: Arial, sans-serif;
   }
@@ -101,7 +101,6 @@ table td select {
   h1, h2, h3 {
     text-align: center;
     margin-top: 0;
-  
   }
 </style>
   <meta charset="UTF-8">
@@ -151,6 +150,7 @@ table td select {
       border-collapse: collapse;
       margin-top: 10px;
       font-size: 11px;
+      font-weight: bold;
     }
     th, td {
       border: 1px solid #000;
@@ -167,6 +167,7 @@ table td select {
     .buttons button {
       padding: 8px 15px;
       font-size: 12px;
+      font-weight: bold;
       margin: 3px;
       border: none;
       background-color: #3498db;
@@ -217,6 +218,7 @@ table td select {
   body {
     background-color: #fff;
     font-size: 12px;
+    font-weight: bold;
     font-family: 'Arial', sans-serif;
     color: #000;
     margin: 0;
@@ -235,6 +237,7 @@ table td select {
   input, select {
     padding: 3px;
     font-size: 11px;
+    font-weight: bold;
     margin-top: 2px;
     margin-bottom: 4px;
   }
@@ -243,7 +246,8 @@ table td select {
   }
   table {
     margin-top: 4px;
-    font-size: 9px;
+    font-size: 12px;
+    font-weight: bold;
   }
   th, td {
     padding: 4px;
@@ -251,7 +255,8 @@ table td select {
   .result {
     padding: 8px;
     margin-top: 10px;
-    font-size: 11px;
+    font-size: 12px;
+    font-weight: bold;
   }
   .buttons,
   .designer,
@@ -274,10 +279,10 @@ table td select {
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
   <img src="https://raw.githubusercontent.com/Hussien-qais/t/refs/heads/main/Coat_of_arms_of_Iraq.png" alt="شعار العراق" width="60">
   <h2 style="flex: 1; text-align: center; margin: 0;">احتساب الترفيع للموظف العراقي</h2>
-<h2 style="text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 5px;">
-</h2>
-<div style="text-align: center; font-size: 10px; font-weight: bold; color: #555; margin-bottom: 10px;">
-  امسح الباركود للدخول للموقع الالكتروني
+<h2 style="text-align: center; font-size: 20px; font-weight: bold; margin-top: 5px;">
+  </h2>
+<div style="text-align: center;">
+  <div id="barcode"></div>
 </div>
   <img src="https://raw.githubusercontent.com/Hussien-qais/t/main/websiteplanet-qr.png" alt="QR Code" width="90">
 </div>
@@ -322,13 +327,13 @@ table td select {
 
     <div class="buttons">
      <button onclick="calculatePromotion()" class="no-print">احتساب الترفيع</button>
-<button onclick="window.print()" class="no-print">طباعة</button>
 <button onclick="downloadPDF()" class="no-print">حفظ كـ PDF</button>
     </div>
-
     <div class="result" id="result"></div>
 
-  </div>
+<div class="footer" style="text-align: center; margin-top: 20px; font-weight: bold;font-size: 12px;">
+  <span>رابط الموقع الالكتروني الخاص باحتساب الترفيع أو يمكنك مسح الباركود أعلاه للدخول للموقع مباشرة</span>
+<div dir="ltr" style="unicode-bidi: embed; margin-top: 4px;">https://hussien-qais.github.io/t/</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
 function downloadPDF() {
@@ -537,31 +542,6 @@ function downloadPDF() {
     buttons.forEach(btn => btn.style.display = "inline-block");
   });
 }
-  document.getElementById("currentYear").textContent = new Date().getFullYear();
-
-function downloadImage() {
-  const element = document.getElementById("captureArea");
-
-  // إعداد container بالحجم المناسب لـ A4 (794 × 1123 px تقريباً عند 96dpi)
-  const a4Width = 794;
-  const a4Height = 1123;
-
-  const scale = 3; // لزيادة الدقة
-
-  html2canvas(element, {
-    scale: scale,
-    width: a4Width,
-    height: a4Height,
-    scrollY: 3,
-    windowWidth: a4Width,
-    windowHeight: a4Height,
-    useCORS: true,
-    backgroundColor: '#ffffff'
-  }).then(function(canvas) {
-    const link = document.createElement("a");
-    link.download = "احتساب_الترفيع.jpg";
-    link.href = canvas.toDataURL("image/jpeg", 1.0);
-    link.click();
-  });
-}
 </script>
+
+  
