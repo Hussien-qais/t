@@ -544,5 +544,20 @@ function downloadPDF() {
   });
 }
 </script>
-
-  
+function requestStoragePermission() {
+    // تحقق من دعم المتصفح لمقدرة صلاحية التخزين
+    if (navigator.permissions) {
+        navigator.permissions.query({ name: 'storage' }).then(function(permissionStatus) {
+            if (permissionStatus.state === 'granted') {
+                console.log('تم منح صلاحية التخزين');
+                // يمكن تنفيذ الوظيفة التي تحتاج إلى صلاحية التخزين هنا
+            } else {
+                alert('الرجاء منح صلاحية التخزين لتحميل الملفات.');
+                // يمكن هنا تقديم طلب للمتصفح أو التطبيق للمستخدم لتحويله إلى الإعدادات
+            }
+        });
+    } else {
+        alert('صلاحية التخزين غير مدعومة في متصفحك.');
+    }
+}
+  </script>
