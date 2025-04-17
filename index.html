@@ -323,7 +323,6 @@ table td select {
     <div class="buttons">
      <button onclick="calculatePromotion()" class="no-print">احتساب الترفيع</button>
 <button onclick="window.print()" class="no-print">طباعة</button>
-<button onclick="downloadImage()" class="no-print">تنزيل</button>
 <button onclick="downloadPDF()" class="no-print">حفظ كـ PDF</button>
     </div>
 
@@ -426,9 +425,9 @@ function downloadPDF() {
         <td><input type="number" min="0" max="3" id="uni_${i}"></td>
         <td><input type="number" min="0" max="3" id="minister_${i}"></td>
         <td><input type="number" min="0" max="3" id="pm_${i}" oninput="checkPMInputs()"></td>
-        <td><select id="warn_${i}"><option>لا</option><option>نعم</option></select></td>
-        <td><select id="alert_${i}"><option>لا</option><option>نعم</option></select></td>
-        <td><select id="blame_${i}"><option>لا</option><option>نعم</option></select></td>
+        <td><select id="warn_${i}"><option> </option><option>نعم</option></select></td>
+        <td><select id="alert_${i}"><option> </option><option>نعم</option></select></td>
+        <td><select id="blame_${i}"><option> </option><option>نعم</option></select></td>
       </tr>`;
     }
 
