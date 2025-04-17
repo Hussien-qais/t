@@ -12,6 +12,28 @@
   font-family: Arial, sans-serif;
   transform: scale(0.90);
 }
+  .flex-group {
+  display: flex;
+  gap: 6px;
+  justify-content: center; /* توسيط الحقول أفقياً */
+}
+
+.flex-group input {
+  text-align: center; /* توسيط النص داخل الحقول */
+}
+  #years {
+  text-align: right;
+}
+  /* توسيط محتوى خلايا الجدول */
+table td input,
+table td select {
+  text-align: center;           /* توسيط النص داخل input/select */
+  display: block;               /* حتى لا يتمدد بعرض الخلية */
+  margin: 0 auto;               /* توسيط العنصر نفسه داخل الخلية */
+  width: 90%;                   /* عرض مناسب مع فراغ بسيط */
+  font-size: 10.5px;            /* حجم مقروء */
+  padding: 4px;                 /* راحة بصرية */
+}
 @media screen and (max-width: 500px) {
   table {
     font-size: 10px;
@@ -37,7 +59,8 @@
   @media print {
   .no-print {
     display: none !important;
-  }   
+  } 
+    
     box-sizing: border-box;
     font-family: Arial, sans-serif;
   }
@@ -542,4 +565,4 @@ function downloadImage() {
     link.click();
   });
 }
- </script>
+</script>
