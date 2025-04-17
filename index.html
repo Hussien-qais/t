@@ -473,18 +473,28 @@ function downloadPDF() {
 }
   // لإضافة التاريخ الحالي في الفوتر
   document.getElementById("currentYear").textContent = new Date().getFullYear();
-
 function downloadImage() {
   const element = document.getElementById("captureArea");
+
+  // إعداد container بالحجم المناسب لـ A4 (794 × 1123 px تقريباً عند 96dpi)
+  const a4Width = 794;
+  const a4Height = 1123;
+
+  const scale = 2; // لزيادة الدقة
+
   html2canvas(element, {
-    scale: 3, // زيادة الدقة
+    scale: scale,
+    width: a4Width,
+    height: a4Height,
+    scrollY: 0,
+    windowWidth: a4Width,
+    windowHeight: a4Height,
     useCORS: true,
-    scrollY: -window.scrollY
-  }).then(canvas => {
-    const imgData = canvas.toDataURL("image/jpeg", 1.0);
+    backgroundColor: '#ffffff'
+  }).then(function(canvas) {
     const link = document.createElement("a");
-    link.href = imgData;
     link.download = "احتساب_الترفيع.jpg";
+    link.href = canvas.toDataURL("image/jpeg", 1.0);
     link.click();
   });
 }
