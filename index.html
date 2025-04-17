@@ -3,12 +3,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
   <style>
+  #captureArea {
+  width: 100%;
+  max-width: 1800mm;
+  padding: 10mm;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  transform: scale(0.90);
+}
+@media screen and (max-width: 500px) {
+  table {
+    font-size: 10px;
+  }
+  th, td {
+    padding: 3px 2px;
+    font-size: 9px;
+  }
+
+/* جعل الجدول يتمدد أفقيًا إن احتاج */
+@media screen and (max-width: 600px) {
+  table {
+    font-size: 11px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table thead {
+    background-color: #f1f1f1;
+    position: sticky;
+    top: 0;
+  }
+}
   @media print {
-    .no-print {
-      display: none !important;
-    }
-    <style>
-  * {
+  .no-print {
+    display: none !important;
+  }   
     box-sizing: border-box;
     font-family: Arial, sans-serif;
   }
@@ -77,8 +106,7 @@
       font-weight: bold;
     }
     label {
-      display: block;
-      margin-top: 4px;
+      margin-top: 9px;
       font-size: 11px;
     }
     input, select {
@@ -178,7 +206,7 @@
     max-width: 100%;
   }
   label {
-    margin-top: 2px;
+    margin-top: 9px;
     margin-bottom: 1px;
   }
   input, select {
@@ -215,7 +243,7 @@
       #startDate {
         text-align: right;
       }
-    }
+}
   </style>
 </head>
 <body>
@@ -273,32 +301,45 @@
      <button onclick="calculatePromotion()" class="no-print">احتساب الترفيع</button>
 <button onclick="window.print()" class="no-print">طباعة</button>
 <button onclick="downloadImage()" class="no-print">تنزيل</button>
+<button onclick="downloadPDF()" class="no-print">حفظ كـ PDF</button>
     </div>
 
     <div class="result" id="result"></div>
 
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
 function downloadPDF() {
   const element = document.getElementById("captureArea");
+
+  // إخفاء الأزرار
+  const buttons = document.querySelectorAll(".no-print");
+  buttons.forEach(btn => btn.style.display = "none");
+
   const opt = {
-    margin: [0.2, 0.2, 0.2, 0.2],
+    margin: [0, 0, 0, 0],
     filename: 'احتساب_الترفيع.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
+    image: { type: 'jpeg', quality: 1 },
     html2canvas: {
-      scale: 2,
+      scale: 2.5,
       useCORS: true,
       scrollY: 0
     },
     jsPDF: {
-      unit: 'in',
+      unit: 'mm',
       format: 'a4',
       orientation: 'portrait'
     },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    pagebreak: {
+      mode: ['avoid-all', 'css', 'legacy']
+    }
   };
+
+  html2pdf().set(opt).from(element).save().then(() => {
+    // إعادة إظهار الأزرار بعد حفظ الملف
+    buttons.forEach(btn => btn.style.display = "inline-block");
+  });
+}
   html2pdf().set(opt).from(element).save();
 }
 </script>
@@ -347,12 +388,12 @@ function downloadPDF() {
 
     let table = `<table><thead><tr>
       <th>السنة</th>
-      <th>شكر المدير</th>
-      <th>شكر الوزير</th>
-      <th>رئيس الوزراء</th>
-      <th>لفت نظر</th>
-      <th>إنذار</th>
-      <th>توبيخ</th>
+      <th>عدد شكر المدير العام او المحافظ</th>
+      <th>عدد شكر الوزير</th>
+      <th>عدد شكر رئيس الوزراء</th>
+      <th> عقوبة لفت نظر</th>
+      <th>عقوبة إنذار</th>
+      <th>عقوبة توبيخ</th>
     </tr></thead><tbody>`;
 
     for (let i = 0; i < years; i++) {
@@ -445,16 +486,19 @@ function downloadPDF() {
 
   function downloadPDF() {
   const element = document.getElementById("captureArea");
+
+  // إخفاء الأزرار
+  const buttons = document.querySelectorAll(".no-print");
+  buttons.forEach(btn => btn.style.display = "none");
+
   const opt = {
-    margin: [0.5, 0.5, 0.5, 0.5], // هوامش صغيرة لاحتواء المحتوى الكامل
+    margin: [0, 0, 0, 0],
     filename: 'احتساب_الترفيع.pdf',
     image: { type: 'jpeg', quality: 1 },
     html2canvas: {
-      scale: 4, // جودة عالية
+      scale: 2.5,
       useCORS: true,
-      scrollY: 0,
-      logging: false,
-      allowTaint: true
+      scrollY: 0
     },
     jsPDF: {
       unit: 'mm',
@@ -462,17 +506,17 @@ function downloadPDF() {
       orientation: 'portrait'
     },
     pagebreak: {
-      mode: ['avoid-all', 'css', 'legacy'],
-      before: '#pageBreak', // إذا كنت تستخدم فاصل صفحة
-      after: [],
-      avoid: ['.no-break'] // امنع التقسيم داخل هذه العناصر
+      mode: ['avoid-all', 'css', 'legacy']
     }
   };
 
-  html2pdf().set(opt).from(element).save();
+  html2pdf().set(opt).from(element).save().then(() => {
+    // إعادة إظهار الأزرار بعد حفظ الملف
+    buttons.forEach(btn => btn.style.display = "inline-block");
+  });
 }
-  // لإضافة التاريخ الحالي في الفوتر
   document.getElementById("currentYear").textContent = new Date().getFullYear();
+
 function downloadImage() {
   const element = document.getElementById("captureArea");
 
@@ -480,13 +524,13 @@ function downloadImage() {
   const a4Width = 794;
   const a4Height = 1123;
 
-  const scale = 2; // لزيادة الدقة
+  const scale = 3; // لزيادة الدقة
 
   html2canvas(element, {
     scale: scale,
     width: a4Width,
     height: a4Height,
-    scrollY: 0,
+    scrollY: 3,
     windowWidth: a4Width,
     windowHeight: a4Height,
     useCORS: true,
@@ -498,4 +542,4 @@ function downloadImage() {
     link.click();
   });
 }
-</script>
+ </script>
