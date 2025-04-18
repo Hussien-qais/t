@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>عداد الزوار</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f5f5f5;
+    }
+    .counter-box {
+      display: inline-block;
+      padding: 30px;
+      background-color: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    #counterSection {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="counter-box" id="loginBox">
+    <h1>كلمة المرور</h1>
+    <input type="password" id="passwordInput" placeholder="أدخل كلمة المرور">
+    <br><br>
+    <button onclick="checkPassword()">دخول</button>
+    <p id="errorMsg" style="color:red;"></p>
+  </div>
+
+  <div class="counter-box" id="counterSection">
+    <h1>عدد زوار الموقع</h1>
+    <div id="sfcl5lf9gfcydaskmpubs8sbeg22bnyg6zm"></div>
+    <script type="text/javascript" src="https://counter2.optistats.ovh/private/counter.js?c=l5lf9gfcydaskmpubs8sbeg22bnyg6zm&down=async" async></script>
+    <noscript>
+      <a href="https://www.freecounterstat.com" title="web page counter">
+        <img src="https://counter2.optistats.ovh/private/freecounterstat.php?c=l5lf9gfcydaskmpubs8sbeg22bnyg6zm" border="0" title="web page counter" alt="web page counter">
+      </a>
+    </noscript>
+  </div>
+
+  <script>
+    function checkPassword() {
+      const correctPassword = "zxcvbnm"; // غيّرها إذا تحب
+      const entered = document.getElementById("passwordInput").value;
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (entered === correctPassword) {
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("counterSection").style.display = "block";
+      } else {
+        errorMsg.textContent = "كلمة المرور غير صحيحة!";
+      }
+    }
+  </script>
+
+</body>
+</html>
